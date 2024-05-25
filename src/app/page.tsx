@@ -14,13 +14,13 @@ export default function Home() {
           <a
             role="button"
             className="bg-teal-900 text-white p-2 rounded mr-1"
-            href="/login"
+            href="/auth/login"
           >
             Login
           </a>
           <a
             role="button"
-            href="/signup"
+            href="/auth/signup"
             className="outline outline-teal-900 outline-1 p-2 rounded"
           >
             Sign up
