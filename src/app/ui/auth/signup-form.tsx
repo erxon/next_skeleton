@@ -17,13 +17,27 @@ export default function SignupForm() {
     <>
       <form action={createUser}>
         <div className="flex flex-col">
+          <div className="flex mb-2 ">
+            <input
+              className="mr-2 p-2 outline outline-1 opacity-50 rounded focus:outline-teal-900 focus:outline-2 focus:opacity-100"
+              name="firstName"
+              type="text"
+              placeholder="First name"
+            />
+            <input
+              className="p-2 outline outline-1 opacity-50 rounded focus:outline-teal-900 focus:outline-2 focus:opacity-100"
+              name="lastName"
+              type="text"
+              placeholder="Last name"
+            />
+          </div>
           <div className="relative">
             <EmailIcon className="pointer-events-none absolute top-5 left-1 transform -translate-y-1/2 left-3" />
             <input
               name="email"
               type="email"
               placeholder="Email"
-              className="mb-2 p-2 pl-10 outline outline-1 opacity-50 rounded focus:outline-teal-900 focus:outline-2 focus:opacity-100"
+              className="w-full mb-2 p-2 pl-10 outline outline-1 opacity-50 rounded focus:outline-teal-900 focus:outline-2 focus:opacity-100"
             />
           </div>
 
@@ -66,7 +80,12 @@ export default function SignupForm() {
               className="peer w-full block p-2 pl-10 appearance-none outline outline-1 opacity-50 rounded focus:outline-teal-900 focus:outline-2 focus:opacity-100"
             />
             <button
-              onClick={() => setShowPassword({confirmPassword: !showPassword.confirmPassword, password: showPassword.password})}
+              onClick={() =>
+                setShowPassword({
+                  confirmPassword: !showPassword.confirmPassword,
+                  password: showPassword.password,
+                })
+              }
               type="button"
               className="absolute right-1 bottom-2"
             >

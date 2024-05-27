@@ -13,6 +13,8 @@ dbConnect().then(() => {
 export async function createUser(formData: FormData) {
   
   const user = new User({
+    firstName: formData.get("firstName"),
+    lastName: formData.get("lastName"),
     email: formData.get("email"),
     password: formData.get("password"),
   });
