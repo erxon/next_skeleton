@@ -1,8 +1,4 @@
-import fetchUser from "../lib/data";
-
 export default async function Page() {
-  const user = fetchUser();
-  console.log(user)
   return (
     <>
       <div className="mt-12 w-fit mx-auto">

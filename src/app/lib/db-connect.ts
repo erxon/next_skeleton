@@ -1,22 +1,42 @@
-import mongoose, { ConnectOptions } from "mongoose";
-
-const uri = process.env.MONGODB_URI!;
-
-const clientOptions = {
-  serverApi: { version: "1", strict: true, deprecationErrors: true },
-};
-
-export async function run() {
-  try {
-    // Create a Mongoose client with a MongoClientOptions object to set the Stable API version
-    await mongoose.connect(uri, clientOptions as ConnectOptions);
-    await mongoose.connection.db.admin().command({ ping: 1 });
-    
-    return "Pinged your deployment. You successfully connected to MongoDB!";
-  } catch(error){
-    return error;
-  } finally {
-    // Ensures that the client will close when you finish/error
-    await mongoose.disconnect();
-  }
+import mongoose from "mongoose";
+declare global {
+  var mongoose: any; // This must be a `var` and not a `let / const`
 }
+
+const MONGODB_URI = process.env.MONGODB_URI!;
+
+if (!MONGODB_URI) {
+  throw new Error(
+    "Please define the MONGODB_URI environment variable inside .env.local",
+  );
+}
+
+let cached = global.mongoose;
+
+if (!cached) {
+  cached = global.mongoose = { conn: null, promise: null };
+}
+
+async function dbConnect() {
+  if (cached.conn) {
+    return cached.conn;
+  }
+  if (!cached.promise) {
+    const opts = {
+      bufferCommands: false,
+    };
+    cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
+      return mongoose;
+    });
+  }
+  try {
+    cached.conn = await cached.promise;
+  } catch (e) {
+    cached.promise = null;
+    throw e;
+  }
+
+  return cached.conn;
+}
+
+export default dbConnect;

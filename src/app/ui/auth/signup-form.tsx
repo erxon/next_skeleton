@@ -5,6 +5,7 @@ import KeyIcon from "@mui/icons-material/Key";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { useState } from "react";
+import { createUser } from "@/app/lib/actions";
 
 export default function SignupForm() {
   const [showPassword, setShowPassword] = useState({
@@ -14,7 +15,7 @@ export default function SignupForm() {
 
   return (
     <>
-      <form>
+      <form action={createUser}>
         <div className="flex flex-col">
           <div className="relative">
             <EmailIcon className="pointer-events-none absolute top-5 left-1 transform -translate-y-1/2 left-3" />
