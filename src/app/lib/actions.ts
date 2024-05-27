@@ -17,12 +17,14 @@ export async function createUser(formData: FormData) {
     password: formData.get("password"),
   });
 
+  let id : string;
   try {
     const data = await user.save();
-    console.log(data)
+    id = data.id;
+    
   } catch (error) {
     return { message: "Database Error: Something went wrong" };
   }
 
-  redirect('/welcome');
+  redirect(`/welcome/${id}`);
 }
