@@ -14,9 +14,13 @@ export default async function Page({ params }: { params: { id: string } }) {
   return (
     <>
       <div className="w-1/2 mx-auto mt-12">
-        <Link href="/welcome" className="text-teal-900 font-medium">Back</Link>
+        <Link href="/welcome" className="text-teal-900 font-medium">
+          Back
+        </Link>
         <h1 className="mb-2 font-medium">User</h1>
-        <p>{firstName} {lastName}</p>
+        <p>
+          {firstName} {lastName}
+        </p>
         <p>{email}</p>
       </div>
     </>

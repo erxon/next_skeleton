@@ -1,7 +1,10 @@
-import SignupForm from "../../ui/auth/signup-form";
+'use client';
+
+import SignupForm from "@/app/ui/auth/signup-form";
 import Link from "next/link";
 
 export default function Page() {
+ 
   return (
     <>
       <div>
