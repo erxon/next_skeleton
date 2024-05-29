@@ -4,7 +4,8 @@ import dbConnect from "./db-connect";
 import User from "./models/User";
 import { redirect } from "next/navigation";
 import { z } from "zod";
-import bcrypt from "bcrypt";
+import hashPassword from "./utilities/hash-password";
+import { isEmpty } from "./utilities/for-form";
 
 dbConnect()
   .then(() => {
@@ -13,26 +14,6 @@ dbConnect()
   .catch((error) => {
     throw new Error(error);
   });
-
-//Utilities
-function isEmpty(fieldName: string, formData: FormData) {
-  if (formData.get(fieldName) === "") {
-    return true;
-  } else {
-    return false;
-  }
-}
-
-async function hashPassword(password: string) {
-  try {
-    const salt = await bcrypt.genSalt(1);
-    const hash = await bcrypt.hash(password, salt);
-
-    return { salt: salt, hash: hash };
-  } catch (error) {
-    throw new Error("Encryption Error");
-  }
-}
 
 const FormSchema = z.object({
   firstName: z.string({
