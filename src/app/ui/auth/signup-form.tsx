@@ -10,7 +10,7 @@ import { useFormState } from "react-dom";
 
 export default function SignupForm() {
   // const initialState = { message: "", passwordError: "", errors: {} };
-  const initialState = { message: "", errors: {} };
+  const initialState = { message: "", passwordError: "", errors: {} };
   const [state, dispatch] = useFormState(createUser, initialState);
 
   const [showPassword, setShowPassword] = useState({
@@ -153,13 +153,13 @@ export default function SignupForm() {
           </div>
         </div>
         {/* Password Error */}
-        {/* <div id="password-error" aria-live="polite" aria-atomic="true">
+        <div id="password-error" aria-live="polite" aria-atomic="true">
           {state.passwordError && (
             <p className="mt-2 text-sm text-red-500" key={state.passwordError}>
               {state.passwordError}
             </p>
           )}
-        </div> */}
+        </div>
 
         <button className="bg-teal-900 text-white p-2 rounded mt-3">
           Signup

@@ -48,7 +48,7 @@ export type State = {
     password?: string[];
     confirmPassword?: string[];
   };
-  // passwordError?: string | null;
+  passwordError?: string | null;
   message?: string | null;
 };
 
@@ -69,17 +69,19 @@ export async function createUser(prevState: State, formData: FormData) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
       message: "Missing Fields. Failed to Create User.",
+      passwordError: ""
     };
   }
 
   const { firstName, lastName, email, password, confirmPassword } =
     validatedFields.data;
 
-  // if (password !== confirmPassword) {
-  //   return {
-  //     passwordError: "Password did not match.",
-  //   };
-  // }
+  if (password !== confirmPassword) {
+    return {
+      
+      passwordError: "Password did not match.",
+    };
+  }
 
   const user = new User({
     firstName: firstName,
