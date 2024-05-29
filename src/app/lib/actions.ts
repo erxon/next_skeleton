@@ -29,7 +29,7 @@ const FormSchema = z.object({
     invalid_type_error: "Please add a password.",
   }),
   confirmPassword: z.string({
-    invalid_type_error: "confirm your password.",
+    invalid_type_error: "Confirm your password.",
   }),
 });
 
@@ -76,30 +76,24 @@ export async function createUser(prevState: State, formData: FormData) {
   }
 
   //encrypt password
-
-  let encryptPassword = { salt: "", hash: "" };
-  try {
-    const encryptedPassword = await hashPassword(password);
-    encryptPassword = { ...encryptedPassword };
-  } catch (error) {
-    return { message: "Encryption Error" };
-  }
-
-  const user = new User({
-    firstName: firstName,
-    lastName: lastName,
-    email: email,
-    salt: encryptPassword.salt,
-    hash: encryptPassword.hash,
-    createdAt: new Date(),
-  });
-
   let id: string;
   try {
+    const encryptedPassword = await hashPassword(password);
+
+    const user = new User({
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      salt: encryptedPassword.salt,
+      hash: encryptedPassword.hash,
+      createdAt: new Date(),
+    });
+
     const data = await user.save();
     id = data.id;
+    
   } catch (error) {
-    return { message: "Database Error: Something went wrong" };
+    return { message: `${error}` };
   }
 
   redirect(`/welcome/${id}`);
