@@ -5,7 +5,9 @@ export interface Users extends mongoose.Document {
   firstName: String;
   lastName: String;
   email: String;
-  password: String;
+  hash: String;
+  salt: String;
+  createdAt: Date;
 }
 
 const userSchema = new Schema<Users>({
@@ -21,7 +23,9 @@ const userSchema = new Schema<Users>({
     type: String,
     required: true,
   },
-  password: { type: String, required: true },
+  hash: String,
+  salt: String,
+  createdAt: Date,
 });
 
 export default mongoose.models.User ||

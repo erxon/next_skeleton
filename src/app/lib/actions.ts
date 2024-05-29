@@ -4,6 +4,7 @@ import dbConnect from "./db-connect";
 import User from "./models/User";
 import { redirect } from "next/navigation";
 import { z } from "zod";
+import bcrypt from "bcrypt";
 
 dbConnect()
   .then(() => {
@@ -19,6 +20,17 @@ function isEmpty(fieldName: string, formData: FormData) {
     return true;
   } else {
     return false;
+  }
+}
+
+async function hashPassword(password: string) {
+  try {
+    const salt = await bcrypt.genSalt(1);
+    const hash = await bcrypt.hash(password, salt);
+
+    return { salt: salt, hash: hash };
+  } catch (error) {
+    throw new Error("Encryption Error");
   }
 }
 
@@ -69,7 +81,7 @@ export async function createUser(prevState: State, formData: FormData) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
       message: "Missing Fields. Failed to Create User.",
-      passwordError: ""
+      passwordError: "",
     };
   }
 
@@ -78,16 +90,27 @@ export async function createUser(prevState: State, formData: FormData) {
 
   if (password !== confirmPassword) {
     return {
-      
       passwordError: "Password did not match.",
     };
+  }
+
+  //encrypt password
+
+  let encryptPassword = { salt: "", hash: "" };
+  try {
+    const encryptedPassword = await hashPassword(password);
+    encryptPassword = { ...encryptedPassword };
+  } catch (error) {
+    return { message: "Encryption Error" };
   }
 
   const user = new User({
     firstName: firstName,
     lastName: lastName,
     email: email,
-    password: password,
+    salt: encryptPassword.salt,
+    hash: encryptPassword.hash,
+    createdAt: new Date(),
   });
 
   let id: string;
