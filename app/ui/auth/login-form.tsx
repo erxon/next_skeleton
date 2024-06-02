@@ -1,17 +1,20 @@
-"use client";
+'use client';
 
 import EmailIcon from "@mui/icons-material/Email";
 import KeyIcon from "@mui/icons-material/Key";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { useState } from "react";
+import { useFormState, useFormStatus } from "react-dom";
+import { authenticate } from "@/app/lib/actions";
 
 export default function LoginForm() {
+  const [errorMessage, dispatch] = useFormState(authenticate, undefined);
   const [showPassword, setShowPassword] = useState(false);
-
+  
   return (
     <>
-      <form>
+      <form action={dispatch}>
         <div className="flex flex-col">
           <div className="relative">
             <EmailIcon className="pointer-events-none absolute top-5 left-1 transform -translate-y-1/2 left-3" />
@@ -42,9 +45,34 @@ export default function LoginForm() {
               )}
             </button>
           </div>
-          <button className="bg-teal-900 text-white p-2 rounded mt-3">Login</button>
+          <LoginButton />
+        </div>
+        <div
+          className="flex h-8 items-end space-x-1"
+          aria-live="polite"
+          aria-atomic="true"
+        >
+          {errorMessage && (
+            <>
+              <p className="text-sm text-red-500">{errorMessage}</p>
+            </>
+          )}
         </div>
       </form>
     </>
+  );
+}
+
+function LoginButton() {
+  const { pending } = useFormStatus();
+
+  return (
+    <button
+      type="submit"
+      className="mt-4 w-full bg-teal-900 text-white p-2 rounded"
+      aria-disabled={pending}
+    >
+      Log in
+    </button>
   );
 }

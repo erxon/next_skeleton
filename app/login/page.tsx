@@ -1,10 +1,10 @@
 import Link from "next/link";
-import LoginForm from "../../ui/auth/login-form";
+import LoginForm from "../ui/auth/login-form";
 
 export default function Page() {
   return (
-    <>
-      <div>
+    <main>
+      <div className="w-fit mx-auto mt-12">
         <h1 className="font-medium">Login</h1>
         <div className="mt-5">
           <LoginForm />
@@ -14,6 +14,6 @@ export default function Page() {
           Redirect to <Link className="text-teal-900 font-medium" href="/auth/signup">Sign up</Link>
         </p>
       </div>
-    </>
+    </main>
   );
 }

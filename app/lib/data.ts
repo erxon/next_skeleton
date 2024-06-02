@@ -1,11 +1,7 @@
 import User from "./models/User";
 import dbConnect from "./db-connect";
 
-dbConnect().then((result) => {
-  console.log("Database is running")
-}).catch((error) => {
-  console.log(error);
-})
+dbConnect();
 
 export async function fetchUserById(id: string) {
   try {

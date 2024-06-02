@@ -3,17 +3,12 @@
 import dbConnect from "./db-connect";
 import User from "./models/User";
 import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import hashPassword from "./utilities/hash-password";
 import { isEmpty } from "./utilities/for-form";
-
-dbConnect()
-  .then(() => {
-    console.log("Database is running");
-  })
-  .catch((error) => {
-    throw new Error(error);
-  });
+import { signIn, signOut } from "@/auth";
+import { AuthError } from "next-auth";
 
 const FormSchema = z.object({
   firstName: z.string({
@@ -78,6 +73,7 @@ export async function createUser(prevState: State, formData: FormData) {
   //encrypt password
   let id: string;
   try {
+    await dbConnect();
     const encryptedPassword = await hashPassword(password);
 
     const user = new User({
@@ -91,10 +87,40 @@ export async function createUser(prevState: State, formData: FormData) {
 
     const data = await user.save();
     id = data.id;
-    
   } catch (error) {
     return { message: `${error}` };
   }
 
   redirect(`/welcome/${id}`);
+}
+
+export async function authenticate(
+  prevState: string | undefined,
+  formData: FormData
+) {
+  try {
+    const result = await signIn("credentials", {
+      email: formData.get("email"),
+      password: formData.get("password"),
+      redirect: false,
+    });
+
+    revalidatePath("/welcome");
+    redirect("/welcome");
+  } catch (error) {
+    if (error instanceof AuthError) {
+      switch (error.type) {
+        case "CredentialsSignin":
+          return "Invalid credentials.";
+        default:
+          return "Something went wrong.";
+      }
+    }
+    throw error;
+  }
+}
+
+export async function signOutTrigger() {
+  const result = await signOut({ redirect: false, redirectTo: "/login" });
+  redirect(result.redirect);
 }

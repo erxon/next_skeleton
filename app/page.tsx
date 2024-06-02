@@ -14,7 +14,7 @@ export default function Home() {
           <a
             role="button"
             className="bg-teal-900 text-white p-2 rounded mr-1"
-            href="/auth/login"
+            href="/login"
           >
             Login
           </a>
