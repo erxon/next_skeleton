@@ -14,7 +14,7 @@ export default function Page() {
             {/* Add Providers (Google, Facebook, Github) */}
         </div>
         <p className="text-center mt-2">
-          Redirect to <Link className="text-teal-900 font-medium" href="/auth/login">Login</Link>
+          Redirect to <Link className="text-teal-900 font-medium" href="/login">Login</Link>
         </p>
       </div>
     </>

@@ -1,7 +1,6 @@
 import User from "./models/User";
 import dbConnect from "./db-connect";
-
-dbConnect();
+import { unstable_noStore as noStore } from "next/cache";
 
 export async function fetchUserById(id: string) {
   try {
@@ -9,6 +8,18 @@ export async function fetchUserById(id: string) {
     return user;
   } catch (error) {
     return null;
+  }
+}
+
+export async function fetchUserByEmail(email: string | undefined | null) {
+  try {
+    noStore();
+    await dbConnect();
+    const user = await User.findOne({ email: email });
+    return { firstName: user.firstName, lastName: user.lastName, email: email };
+  } catch (error) {
+    console.log(error);
+    throw new Error("User not found");
   }
 }
 

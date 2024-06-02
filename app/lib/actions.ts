@@ -91,7 +91,8 @@ export async function createUser(prevState: State, formData: FormData) {
     return { message: `${error}` };
   }
 
-  redirect(`/welcome/${id}`);
+  revalidatePath("/welcome");
+  redirect(`/welcome`);
 }
 
 export async function authenticate(
