@@ -22,6 +22,8 @@ const userSchema = new Schema<Users>({
   email: {
     type: String,
     required: true,
+    unique: true,
+    dropDups: true
   },
   hash: String,
   salt: String,
@@ -30,3 +32,4 @@ const userSchema = new Schema<Users>({
 
 export default mongoose.models.User ||
   mongoose.model<Users>("User", userSchema);
+  

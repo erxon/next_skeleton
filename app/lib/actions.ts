@@ -84,7 +84,6 @@ export async function createUser(prevState: State, formData: FormData) {
       hash: encryptedPassword.hash,
       createdAt: new Date(),
     });
-
     const data = await user.save();
     id = data.id;
   } catch (error) {

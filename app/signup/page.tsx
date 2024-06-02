@@ -1,13 +1,11 @@
-'use client';
-
 import SignupForm from "@/app/ui/auth/signup-form";
 import Link from "next/link";
 
 export default function Page() {
  
   return (
-    <>
-      <div>
+    <main>
+      <div className="w-fit mx-auto mt-12 text-center">
         <h1 className="font-medium">Signup</h1>
         <div className="mt-5">
             <SignupForm />
@@ -17,6 +15,6 @@ export default function Page() {
           Redirect to <Link className="text-teal-900 font-medium" href="/login">Login</Link>
         </p>
       </div>
-    </>
+    </main>
   );
 }
