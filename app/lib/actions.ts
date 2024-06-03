@@ -1,14 +1,17 @@
 "use server";
 
-import dbConnect from "./db-connect";
-import User from "./models/User";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
-import hashPassword from "./utilities/hash-password";
+import {
+  hashPassword,
+  isEmailExist,
+  isPasswordMatch,
+} from "./utilities/auth-utils";
 import { isEmpty } from "./utilities/for-form";
 import { signIn, signOut } from "@/auth";
 import { AuthError } from "next-auth";
+import { create } from "./database/user-db";
 
 const FormSchema = z.object({
   firstName: z.string({
@@ -36,7 +39,6 @@ export type State = {
     password?: string[];
     confirmPassword?: string[];
   };
-  passwordError?: string | null;
   message?: string | null;
 };
 
@@ -56,36 +58,39 @@ export async function createUser(prevState: State, formData: FormData) {
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
-      message: "Missing Fields. Failed to Create User.",
-      passwordError: "",
+      message: "Missing Fields. Failed to Create User",
     };
   }
 
   const { firstName, lastName, email, password, confirmPassword } =
     validatedFields.data;
 
-  if (password !== confirmPassword) {
+  //check if email is unique
+  if (await isEmailExist(email)) {
     return {
-      passwordError: "Password did not match.",
+      message: "Email already exists",
+    };
+  }
+  //compare confirm password and password
+  if (!isPasswordMatch(password, confirmPassword)) {
+    return {
+      message: "Password didn't match",
     };
   }
 
   //encrypt password
   let id: string;
   try {
-    await dbConnect();
     const encryptedPassword = await hashPassword(password);
-
-    const user = new User({
+    const newUser = await create({
+      email: email,
       firstName: firstName,
       lastName: lastName,
-      email: email,
-      salt: encryptedPassword.salt,
       hash: encryptedPassword.hash,
-      createdAt: new Date(),
+      salt: encryptedPassword.salt,
     });
-    const data = await user.save();
-    id = data.id;
+
+    id = newUser.id;
   } catch (error) {
     return { message: `${error}` };
   }
@@ -118,6 +123,10 @@ export async function authenticate(
     }
     throw error;
   }
+}
+
+export async function signInWithGoogle() {
+  await signIn("google");
 }
 
 export async function signOutTrigger() {

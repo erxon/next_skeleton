@@ -5,6 +5,7 @@ import { z } from 'zod';
 import bcrypt from 'bcrypt';
 import User from './app/lib/models/User';
 import dbConnect from './app/lib/db-connect';
+import Google from "next-auth/providers/google"
 
 interface UserObject {
     email: string;
@@ -27,9 +28,10 @@ async function getUser(email: string) : Promise<UserObject | undefined> {
   }
 }
 
-export const { auth, signIn, signOut } = NextAuth({
+export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
   providers: [
+    Google,
     Credentials({
       async authorize(credentials) {
         const parsedCredentials = z
