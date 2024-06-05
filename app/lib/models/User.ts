@@ -1,3 +1,4 @@
+import { Timestamp } from "mongodb";
 import mongoose from "mongoose";
 const { Schema } = mongoose;
 
@@ -8,6 +9,9 @@ export interface Users extends mongoose.Document {
   hash: String;
   salt: String;
   createdAt: Date;
+  name: String;
+  emailVerified: Date;
+  image: String;
 }
 
 const userSchema = new Schema<Users>({
@@ -19,12 +23,13 @@ const userSchema = new Schema<Users>({
     type: String,
     required: true,
   },
+  name: String,
   email: {
     type: String,
     required: true,
-    unique: true,
-    dropDups: true
   },
+  emailVerified: Date,
+  image: String,
   hash: String,
   salt: String,
   createdAt: Date,

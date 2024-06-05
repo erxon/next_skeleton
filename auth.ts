@@ -1,43 +1,41 @@
-import NextAuth from 'next-auth';
-import { authConfig } from './auth.config';
-import Credentials from 'next-auth/providers/credentials';
-import { z } from 'zod';
-import bcrypt from 'bcrypt';
-import User from './app/lib/models/User';
-import dbConnect from './app/lib/db-connect';
-import Google from "next-auth/providers/google"
+import NextAuth from "next-auth";
+import { authConfig } from "./auth.config";
+import Credentials from "next-auth/providers/credentials";
+import { z } from "zod";
+import bcrypt from "bcrypt";
+import User from "./app/lib/models/User";
+import dbConnect from "./app/lib/db-connect";
 
 interface UserObject {
-    email: string;
-    firstName: string;
-    lastName: string;
-    hash: string;
-    salt: string;
-    createdAt: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  image: string;
+  hash: string;
+  salt: string;
+  createdAt: string;
 }
 
-async function getUser(email: string) : Promise<UserObject | undefined> {
+async function getUser(email: string): Promise<UserObject | undefined> {
   try {
     await dbConnect();
-    
-    const user = await User.findOne({email: email});
+    const user = await User.findOne({ email: email });
     return user;
-  } catch (error){
+  } catch (error) {
     console.log(error);
     throw new Error("Failed to fetch user");
   }
 }
 
-export const { handlers, auth, signIn, signOut } = NextAuth({
+export const { auth, signIn, signOut } = NextAuth({
   ...authConfig,
   providers: [
-    Google,
     Credentials({
       async authorize(credentials) {
         const parsedCredentials = z
           .object({ email: z.string().email(), password: z.string().min(6) })
           .safeParse(credentials);
-          
+
         if (parsedCredentials.success) {
           const { email, password } = parsedCredentials.data;
           const user = await getUser(email);
@@ -46,8 +44,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
           if (passwordsMatch) return user;
         }
-        
-        console.log('Invalid credentials');
+
+        console.log("Invalid credentials");
         return null;
       },
     }),

@@ -22,7 +22,7 @@ export default function LoginForm() {
               name="email"
               type="email"
               placeholder="Email"
-              className="mb-2 p-2 pl-10 outline outline-1 opacity-50 rounded focus:outline-teal-900 focus:outline-2 focus:opacity-100"
+              className="w-full mb-2 p-2 pl-10 outline outline-1 opacity-50 rounded focus:outline-teal-900 focus:outline-2 focus:opacity-100"
             />
           </div>
           <div className="relative">
@@ -48,7 +48,6 @@ export default function LoginForm() {
           <LoginButton />
         </div>
         <div
-          className="flex h-8 items-end space-x-1"
           aria-live="polite"
           aria-atomic="true"
         >

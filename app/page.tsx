@@ -1,19 +1,19 @@
 export default function Home() {
   return (
     <main>
-      <div className="w-fit mx-auto mt-12">
-        <h1 className="font-medium text-center">Next JS Starting Template</h1>
+      <div className="w-1/2 mx-auto mt-12">
+        <h1 className="text-4xl mb-3">Next JS Starting Template</h1>
         <div className="mb-5">
-          <p className="text-center">
+          <p>
             Features: MongoDB and NextAuth Authentication
           </p>
-          <p className="text-center text-slate-500">Made by Ericson Castasus</p>
+          <p className="text-slate-500">Made with ❤️ by Ericson Castasus</p>
         </div>
 
-        <div className="text-center">
+        <div>
           <a
             role="button"
-            className="bg-teal-900 text-white p-2 rounded mr-1"
+            className="w-10 bg-teal-900 text-white p-2 rounded mr-1"
             href="/login"
           >
             Login

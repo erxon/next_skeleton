@@ -1,6 +1,5 @@
 import { redirect } from "next/navigation";
-import { signOut, auth } from "../../../auth";
-import { fetchUserByEmail } from "@/app/lib/data";
+import { signOut, auth } from "@/auth";
 import { Suspense } from "react";
 import { UserLoading } from "@/app/ui/loading";
 import User from "@/app/ui/user";
@@ -8,9 +7,11 @@ import User from "@/app/ui/user";
 export default async function Page() {
   const session = await auth();
 
-  if (!session?.user) return null;
+  console.log(session)
 
+  if (!session?.user) return null;
   const email = session?.user?.email;
+
   return (
     <main>
       <div className="mt-12 w-1/3 mx-auto rounded p-5 shadow-lg text-center">
@@ -18,7 +19,6 @@ export default async function Page() {
         <Suspense fallback={<UserLoading />}>
           <User email={email} />
         </Suspense>
-
         {/* Signout */}
         <form
           action={async () => {

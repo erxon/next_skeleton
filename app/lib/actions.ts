@@ -125,9 +125,6 @@ export async function authenticate(
   }
 }
 
-export async function signInWithGoogle() {
-  await signIn("google");
-}
 
 export async function signOutTrigger() {
   const result = await signOut({ redirect: false, redirectTo: "/login" });

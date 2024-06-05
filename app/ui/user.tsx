@@ -1,5 +1,8 @@
 import { fetchUserByEmail } from "../lib/data";
 import PersonIcon from "@mui/icons-material/Person";
+import { auth } from "@/auth";
+import Image from "next/image";
+import {clsx} from 'clsx';
 
 export default async function User({
   email,
@@ -7,19 +10,19 @@ export default async function User({
   email: string | undefined | null;
 }) {
   const user = await fetchUserByEmail(email);
-
-  return (
-    <div>
-      <div className="mb-3">
-        <Avatar />
+  if (user) {
+    return (
+      <div>
+        <div className="mb-3">
+          <Avatar />
+        </div>
+        <p className="font-semibold">
+          {!user.name ? `${user.firstName} ${user.lastName}` : user.name}
+        </p>
+        <p className={clsx(!user.email && "text-gray-500")}>{user.email ? user.email : "No email provided"}</p>
       </div>
-
-      <p className="font-semibold">
-        {user.firstName} {user.lastName}
-      </p>
-      <p>{user.email}</p>
-    </div>
-  );
+    );
+  }
 }
 
 function Avatar() {
@@ -28,4 +31,8 @@ function Avatar() {
       <PersonIcon sx={{ width: "100px", height: "100px", color: "white" }} />
     </div>
   );
+}
+
+function AvatarFromProviders({ image }: { image: string }) {
+  return <Image width={56} height={56} src={image} alt="Profile Picture" />;
 }

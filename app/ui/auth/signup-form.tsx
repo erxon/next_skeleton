@@ -5,9 +5,8 @@ import KeyIcon from "@mui/icons-material/Key";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { useState } from "react";
-import { createUser, signInWithGoogle } from "@/app/lib/actions";
+import { createUser } from "@/app/lib/actions";
 import { useFormState } from "react-dom";
-import { signIn } from "@/auth";
 
 export default function SignupForm() {
   // const initialState = { message: "", passwordError: "", errors: {} };
@@ -166,10 +165,6 @@ export default function SignupForm() {
             </p>
           )}
         </div>
-      </form>
-
-      <form action={signInWithGoogle}>
-        <button>Signup with Google</button>
       </form>
     </>
   );

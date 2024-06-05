@@ -16,10 +16,15 @@ export async function fetchUserByEmail(email: string | undefined | null) {
     noStore();
     await dbConnect();
     const user = await User.findOne({ email: email });
-    return { firstName: user.firstName, lastName: user.lastName, email: email };
+    return {
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: email,
+      name: user.name,
+      image: user.image,
+    };
   } catch (error) {
-    console.log(error);
-    throw new Error("User not found");
+    return null;
   }
 }
 
