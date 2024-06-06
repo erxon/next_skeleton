@@ -5,7 +5,7 @@ export default function Page() {
   return (
     <main>
       <div className="w-fit mx-auto mt-12 text-center">
-        <h1 className="font-medium">Signup</h1>
+        <h1>Signup</h1>
         <div className="mt-5">
           <SignupForm />
           {/* Add Providers (Google, Facebook, Github) */}

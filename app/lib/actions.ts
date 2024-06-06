@@ -84,8 +84,7 @@ export async function createUser(prevState: State, formData: FormData) {
     const encryptedPassword = await hashPassword(password);
     const newUser = await create({
       email: email,
-      firstName: firstName,
-      lastName: lastName,
+      name: `${firstName} ${lastName}`,
       hash: encryptedPassword.hash,
       salt: encryptedPassword.salt,
     });

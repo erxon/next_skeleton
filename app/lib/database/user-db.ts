@@ -3,8 +3,7 @@ import User from "../models/User";
 
 interface User {
   email: string;
-  firstName: string;
-  lastName: string;
+  name: string;
   hash: string;
   salt: string;
 }
