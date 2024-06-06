@@ -35,7 +35,7 @@ export default function Page() {
               Continue with Google
             </button>
           </form>
-          <form
+          {/* <form
             action={async () => {
               "use server";
               await signIn("facebook");
@@ -54,7 +54,7 @@ export default function Page() {
               />{" "}
               Continue with Facebook
             </button>
-          </form>
+          </form> */}
         </div>
       </div>
     </main>
