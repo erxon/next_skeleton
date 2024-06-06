@@ -8,8 +8,6 @@ export default function Page() {
         <h1>Signup</h1>
         <div className="mt-5">
           <SignupForm />
-          {/* Add Providers (Google, Facebook, Github) */}
-          
         </div>
         <p className="text-center mt-2 text-sm">
           Already have an account? {" "}

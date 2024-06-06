@@ -14,7 +14,7 @@ export default async function Page() {
 
   return (
     <main>
-      <div className="mt-12 w-1/3 mx-auto rounded p-5 shadow-lg text-center">
+      <div className="mt-12 w-2/3 sm:w-1/2 lg:w-1/3 mx-auto rounded p-5 shadow-lg text-center">
         <p className="font-medium text-lg mb-4">Welcome</p>
         <Suspense fallback={<UserLoading />}>
           <User email={email} />
