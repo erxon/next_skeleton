@@ -77,6 +77,8 @@ export const config = {
 
 ### auth.ts
 
+This is the configuration for Credentials (email and password).
+
 ```typescript
 import NextAuth from "next-auth";
 import { authConfig } from "./auth.config";
@@ -133,6 +135,8 @@ export const { auth, signIn, signOut } = NextAuth({
 });
 ```
 ### auth-with-provider.ts
+
+I've separated the auth configuration for external providers. This will allow storing data in the database when the user signed in using Google, or others. Using adapters, Auth.js automatically add user in the database.
 
 ```typescript
 import { MongoDBAdapter } from "@auth/mongodb-adapter";

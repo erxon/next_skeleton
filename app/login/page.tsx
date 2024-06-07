@@ -1,6 +1,6 @@
 import Link from "next/link";
 import LoginForm from "../ui/auth/login-form";
-import { signIn } from "@/auth-db-session";
+import { signIn } from "@/auth-with-provider";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 
